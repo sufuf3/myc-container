@@ -75,6 +75,55 @@ build-container ~/myc-container/namespace # echo $$
 1
 ```
 
+# Mount Namespace
+```sh
+build-container ~/myc-container/namespace # ls /proc
+ls: cannot read symbolic link '/proc/self': No such file or directory
+ls: cannot read symbolic link '/proc/thread-self': No such file or directory
+acpi/      cpuinfo    execdomains  ioports    kmsg         mdstat   net@          self@     sysrq-trigger  version
+buddyinfo  crypto     fb           irq/       kpagecgroup  meminfo  pagetypeinfo  slabinfo  sysvipc/       version_signature
+bus/       devices    filesystems  kallsyms   kpagecount   misc     partitions    softirqs  thread-self@   vmallocinfo
+cgroups    diskstats  fs/          kcore      kpageflags   modules  sched_debug   stat      timer_list     vmstat
+cmdline    dma        interrupts   keys       loadavg      mounts@  schedstat     swaps     tty/           zoneinfo
+consoles   driver/    iomem        key-users  locks        mtrr     scsi/         sys/      uptime
+build-container ~/myc-container/namespace # [01/13@10:39:38 1]ps -ef
+Error, do this: mount -t proc proc /proc
+build-container ~/myc-container/namespace # [01/13@10:39:56 47]mount -t proc proc /proc
+build-container ~/myc-container/namespace # ls /proc
+1/         consoles   execdomains  irq/         kpagecount  modules       schedstat  sys/           version
+67/        cpuinfo    fb           kallsyms     kpageflags  mounts@       scsi/      sysrq-trigger  version_signature
+acpi/      crypto     filesystems  kcore        loadavg     mtrr          self@      sysvipc/       vmallocinfo
+buddyinfo  devices    fs/          keys         locks       net@          slabinfo   thread-self@   vmstat
+bus/       diskstats  interrupts   key-users    mdstat      pagetypeinfo  softirqs   timer_list     zoneinfo
+cgroups    dma        iomem        kmsg         meminfo     partitions    stat       tty/
+cmdline    driver/    ioports      kpagecgroup  misc        sched_debug   swaps      uptime
+build-container ~/myc-container/namespace # ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 10:39 pts/3    00:00:00 /bin/bash
+root        69     1  0 10:40 pts/3    00:00:00 ps -ef
+```
+- On host
+```sh
+ufuf3@build-container ~ $ ls /proc
+ls: cannot read symbolic link '/proc/self': No such file or directory
+ls: cannot read symbolic link '/proc/thread-self': No such file or directory
+acpi/      cpuinfo    execdomains  ioports    kmsg         mdstat   net@          self@     sysrq-trigger  version
+buddyinfo  crypto     fb           irq/       kpagecgroup  meminfo  pagetypeinfo  slabinfo  sysvipc/       version_signature
+bus/       devices    filesystems  kallsyms   kpagecount   misc     partitions    softirqs  thread-self@   vmallocinfo
+cgroups    diskstats  fs/          kcore      kpageflags   modules  sched_debug   stat      timer_list     vmstat
+cmdline    dma        interrupts   keys       loadavg      mounts@  schedstat     swaps     tty/           zoneinfo
+consoles   driver/    iomem        key-users  locks        mtrr     scsi/         sys/      uptime
+sufuf3@build-container ~ $ [01/13@10:39:46 1]ls /proc
+ls: cannot read symbolic link '/proc/self': No such file or directory
+ls: cannot read symbolic link '/proc/thread-self': No such file or directory
+1/         consoles   driver/      iomem     key-users    locks    mtrr          scsi/     sys/           uptime
+acpi/      cpuinfo    execdomains  ioports   kmsg         mdstat   net@          self@     sysrq-trigger  version
+buddyinfo  crypto     fb           irq/      kpagecgroup  meminfo  pagetypeinfo  slabinfo  sysvipc/       version_signature
+bus/       devices    filesystems  kallsyms  kpagecount   misc     partitions    softirqs  thread-self@   vmallocinfo
+cgroups    diskstats  fs/          kcore     kpageflags   modules  sched_debug   stat      timer_list     vmstat
+cmdline    dma        interrupts   keys      loadavg      mounts@  schedstat     swaps     tty/           zoneinfo
+```
+
 # Coding Style
 - K & R
 - tool: astyle
