@@ -124,6 +124,16 @@ cgroups    diskstats  fs/          kcore     kpageflags   modules  sched_debug  
 cmdline    dma        interrupts   keys      loadavg      mounts@  schedstat     swaps     tty/           zoneinfo
 ```
 
+# User Namespace
+```sh
+$ sudo id
+uid=0(root) gid=0(root) groups=0(root)
+$ sudo ./user.o 
+nobody@build-container ~/myc-container/namespace $ id
+uid=65534(nobody) gid=65534(nogroup) groups=65534(nogroup)
+nobody@build-container ~/myc-container/namespace $ exit
+```
+
 # Coding Style
 - K & R
 - tool: astyle
