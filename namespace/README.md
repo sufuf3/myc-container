@@ -134,6 +134,12 @@ uid=65534(nobody) gid=65534(nogroup) groups=65534(nogroup)
 nobody@build-container ~/myc-container/namespace $ exit
 ```
 
+# Network Namespace
+```sh
+$ ifconfig
+Warning: cannot open /proc/net/dev (No such file or directory). Limited output.
+```
+
 # Coding Style
 - K & R
 - tool: astyle
