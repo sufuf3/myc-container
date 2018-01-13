@@ -67,3 +67,15 @@ build-container ~/myc-container/namespace # ipcs -q
 ------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages
 ```
+# PID Namespace
+
+`bash(6722)───sudo(19328)───pid.o(19329)───bash(19330)`
+```sh
+build-container ~/myc-container/namespace # echo $$
+1
+```
+
+# Coding Style
+- K & R
+- tool: astyle
+- cmd: `astyle --style=kr <filename>`
