@@ -41,3 +41,29 @@ mylittlecontainer
 $ hostname
 build-container
 ```
+
+# IPC Namespace
+- Run program
+```sh
+build-container ~/myc-container/namespace # readlink /proc/$$/ns/uts /proc/$$/ns/ipc
+uts:[4026532211]
+ipc:[4026532212]
+build-container ~/myc-container/namespace # ipcs -q
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    
+
+build-container ~/myc-container/namespace # ipcmk -Q
+Message queue id: 0
+build-container ~/myc-container/namespace # ipcs -q
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    
+0xbee653a6 0          root       644        0            0           
+
+build-container ~/myc-container/namespace # ./ipc.o 
+build-container ~/myc-container/namespace # ipcs -q
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages
+```
